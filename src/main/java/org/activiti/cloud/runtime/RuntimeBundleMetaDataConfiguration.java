@@ -5,7 +5,6 @@ import java.util.Map;
 import javax.annotation.PostConstruct;
 
 import com.netflix.appinfo.ApplicationInfoManager;
-import org.springframework.beans.factory.BeanClassLoaderAware;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnClass;
@@ -13,7 +12,7 @@ import org.springframework.context.annotation.Configuration;
 
 @Configuration
 @ConditionalOnClass(ApplicationInfoManager.class)
-public class RuntimeBundleMetaDataConfiguration implements BeanClassLoaderAware {
+public class RuntimeBundleMetaDataConfiguration {
 
     @Value("${activiti.cloud.application.name:}")
     private String applicationName;
@@ -34,9 +33,5 @@ public class RuntimeBundleMetaDataConfiguration implements BeanClassLoaderAware 
         metadata.put("activiti-cloud-application-name",
                      applicationName);
         appInfoManager.registerAppMetadata(metadata);
-    }
-
-    public void setBeanClassLoader(ClassLoader classLoader) {
-        // Do nothing for now
     }
 }
