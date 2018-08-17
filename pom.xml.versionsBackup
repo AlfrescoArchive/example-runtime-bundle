@@ -5,7 +5,7 @@
   <groupId>org.activiti.cloud.examples</groupId>
   <artifactId>example-runtime-bundle</artifactId>
   <name>Activiti Cloud :: Runtime Bundle</name>
-  <version>7.0.8</version>
+  <version>1.0.0</version>
   <url>http://activiti.org</url>
   <scm>
     <url>https://github.com/Activiti/${project.artifactId}</url>
