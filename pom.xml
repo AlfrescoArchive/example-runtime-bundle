@@ -22,8 +22,8 @@
   <dependencyManagement>
     <dependencies>
       <dependency>
-        <groupId>org.activiti.cloud.rb</groupId>
-        <artifactId>activiti-cloud-runtime-bundle-dependencies</artifactId>
+        <groupId>org.activiti.cloud.dependencies</groupId>
+        <artifactId>activiti-cloud-dependencies</artifactId>
         <version>${activiti.cloud.version}</version>
         <scope>import</scope>
         <type>pom</type>
