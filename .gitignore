@@ -14,7 +14,6 @@
 *.jar
 *.war
 *.ear
-*.zip
 *.tar.gz
 *.rar
 dist
@@ -37,7 +36,6 @@ target
 *.jar
 *.war
 *.ear
-*.zip
 *.tar.gz
 *.rar
 
