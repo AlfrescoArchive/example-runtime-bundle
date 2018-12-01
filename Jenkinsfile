@@ -4,7 +4,7 @@ pipeline {
     }
     environment {
       ORG               = 'almerico'
-      APP_NAME          = 'example-runtime-bundle'
+      APP_NAME          = 'runtime-bundle'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
       GITHUB_CHARTS_REPO    = "https://github.com/almerico/helmrepo.git"
       GITHUB_HELM_REPO_URL = "https://almerico.github.io/helmrepo"
@@ -29,7 +29,7 @@ pipeline {
    //        sh "jx step post build --image $DOCKER_REGISTRY/$ORG/$APP_NAME:$PREVIEW_VERSION"
 
 
-             dir('.charts/runtime-bundle') {
+             dir('.charts/$APP_NAME') {
                sh "make build"
              }
           }
@@ -50,7 +50,7 @@ pipeline {
             sh "echo \$(jx-release-version) > VERSION"
             sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
 
-            dir ('./charts/runtime-bundle') {
+            dir ("./charts/$APP_NAME") {
               sh "make tag"
             }
             sh 'mvn clean deploy'
@@ -67,7 +67,7 @@ pipeline {
         }
         steps {
           container('maven') {
-            dir ('./charts/runtime-bundle') {
+            dir ("./charts/$APP_NAME") {
               sh 'jx step changelog --version v\$(cat ../../VERSION)'
 
               // release the helm chart
@@ -75,7 +75,7 @@ pipeline {
               // promote through all 'Auto' promotion Environments
 //            sh 'jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION) --no-wait'
               sh 'jx step git credentials'
-              sh 'cd ../.. && updatebot push-version --kind helm runtime-bundle \$(cat VERSION)'
+              sh "cd ../.. && updatebot push-version --kind helm $APP_NAME \$(cat VERSION)"
 
             }
           }
