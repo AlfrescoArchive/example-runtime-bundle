@@ -3,11 +3,11 @@ pipeline {
       label "jenkins-maven"
     }
     environment {
-      ORG               = 'almerico'
+      ORG               = 'activiti'
       APP_NAME          = 'runtime-bundle'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
-      GITHUB_CHARTS_REPO    = "https://github.com/almerico/helmrepo.git"
-      GITHUB_HELM_REPO_URL = "https://almerico.github.io/helmrepo"
+      GITHUB_CHARTS_REPO    = "https://github.com/Activiti/activiti-cloud-helm-charts.git"
+      GITHUB_HELM_REPO_URL = "https://activiti.github.io/activiti-cloud-helm-charts/"
     }
     stages {
       stage('CI Build and push snapshot') {
