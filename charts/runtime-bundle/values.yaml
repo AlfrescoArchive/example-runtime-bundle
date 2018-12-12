@@ -51,7 +51,8 @@ service:
   externalPort: 80
   internalPort: 8080
   annotations:
-    fabric8.io/expose: "false"
+    fabric8.io/expose: "true"
+    fabric8.io/ingress.annotations: "kubernetes.io/ingress.class: nginx"
 resources:
   limits:
     memory: 768Mi
@@ -69,3 +70,6 @@ readinessProbe:
   successThreshold: 1
   timeoutSeconds: 3
 terminationGracePeriodSeconds: 20
+ingress:
+  ## Set to true to enable ingress record generation
+  enabled: false
