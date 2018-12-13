@@ -72,4 +72,4 @@ updatebot/push-version:
 	
 	@echo Doing updatebot push-version.....
 	updatebot push-version --kind helm $(RELEASE_ARTIFACT) $(RELEASE_VERSION)
-	updatebot push-version --kind make QUERY_ACTIVITI_CLOUD_DEPENDENCIES_VERSION $(ACTIVITI_CLOUD_DEPENDENCIES_VERSION)
+	updatebot push-version --kind make RB_ACTIVITI_CLOUD_DEPENDENCIES_VERSION $(ACTIVITI_CLOUD_DEPENDENCIES_VERSION)
