@@ -1,0 +1,5 @@
++ make tag
+sed -i -e "s/version:.*/version: 7.0.25/" Chart.yaml
+sed -i -e "s|repository: .*|repository: docker.io/activiti/runtime-bundle|" values.yaml
+sed -i -e "s/tag: .*/tag: 7.0.25/" values.yaml
+git add --all
