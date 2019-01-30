@@ -1,0 +1,181 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<definitions xmlns="http://www.omg.org/spec/BPMN/20100524/MODEL" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:activiti="http://activiti.org/bpmn" xmlns:bpmndi="http://www.omg.org/spec/BPMN/20100524/DI" xmlns:omgdc="http://www.omg.org/spec/DD/20100524/DC" xmlns:omgdi="http://www.omg.org/spec/DD/20100524/DI" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:modeler="http://activiti.com/modeler" targetNamespace="http://www.activiti.org/processdef" modeler:version="1.0en" modeler:exportDateTime="20190130174115948" modeler:modelId="12644" modeler:modelVersion="14" modeler:modelLastUpdated="1548868306028">
+  <process id="BEER-ORDERING-PROCESS" name="BeerOrderingProcess" isExecutable="true">
+    <extensionElements>
+      <modeler:executionvariables variableName="sohel" variableType="string" />
+    </extensionElements>
+    <startEvent id="startEvent1">
+      <extensionElements>
+        <modeler:editor-resource-id>startEvent1</modeler:editor-resource-id>
+      </extensionElements>
+    </startEvent>
+    <serviceTask id="sid-E6F83FEC-9B30-408E-A7AB-2F0F3F633DF6" name="Retrieve informations" activiti:async="true" implementation="Example Connector" activiti:delegateExpression="${activiti_restCallDelegate}">
+      <extensionElements>
+        <activiti:field name="restUrl">
+          <activiti:string>http://www.mocky.io/v2/5c51d93b320000fd0285594b</activiti:string>
+        </activiti:field>
+        <activiti:field name="httpMethod">
+          <activiti:string>GET</activiti:string>
+        </activiti:field>
+        <modeler:response-mapping processVariableName="sohel" processVariableType="string" jsonPropertyName="." />
+        <modeler:editor-resource-id>sid-E6F83FEC-9B30-408E-A7AB-2F0F3F633DF6</modeler:editor-resource-id>
+      </extensionElements>
+    </serviceTask>
+    <sequenceFlow id="sid-E3C0EC96-E81C-4B17-B2BA-AD95ADA198C1" sourceRef="startEvent1" targetRef="sid-E6F83FEC-9B30-408E-A7AB-2F0F3F633DF6">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-E3C0EC96-E81C-4B17-B2BA-AD95ADA198C1</modeler:editor-resource-id>
+      </extensionElements>
+    </sequenceFlow>
+    <userTask id="sid-7C62FD8F-C77D-4518-88BF-C4E0E18C89C9" name="Fill the Order" activiti:formKey="16538" activiti:assignee="testuser">
+      <extensionElements>
+        <modeler:allow-send-email>true</modeler:allow-send-email>
+        <modeler:form-reference-id>16538</modeler:form-reference-id>
+        <modeler:form-reference-name>CREATE_ORDER</modeler:form-reference-name>
+        <modeler:activiti-idm-initiator>true</modeler:activiti-idm-initiator>
+        <modeler:editor-resource-id>sid-7C62FD8F-C77D-4518-88BF-C4E0E18C89C9</modeler:editor-resource-id>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-91B1892B-BA3E-4A2F-B18F-2855E62DFC67" sourceRef="sid-E6F83FEC-9B30-408E-A7AB-2F0F3F633DF6" targetRef="sid-7C62FD8F-C77D-4518-88BF-C4E0E18C89C9">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-91B1892B-BA3E-4A2F-B18F-2855E62DFC67</modeler:editor-resource-id>
+      </extensionElements>
+    </sequenceFlow>
+    <userTask id="sid-C3A8A19F-10E7-4AD5-BE8C-D13274CE26AA" name="Suggest Changes" activiti:formKey="16575" activiti:assignee="hruser">
+      <extensionElements>
+        <modeler:allow-send-email>true</modeler:allow-send-email>
+        <modeler:form-reference-id>16575</modeler:form-reference-id>
+        <modeler:form-reference-name>SUGGEST_CHANGES</modeler:form-reference-name>
+        <modeler:activiti-idm-assignee>true</modeler:activiti-idm-assignee>
+        <modeler:assignee-info-email>thenormalone@chosen.com</modeler:assignee-info-email>
+        <modeler:assignee-info-firstname>Normal</modeler:assignee-info-firstname>
+        <modeler:assignee-info-lastname>One</modeler:assignee-info-lastname>
+        <modeler:initiator-can-complete>false</modeler:initiator-can-complete>
+        <modeler:editor-resource-id>sid-C3A8A19F-10E7-4AD5-BE8C-D13274CE26AA</modeler:editor-resource-id>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-C03DF361-1881-410F-8117-3AC69D0BA693" sourceRef="sid-7C62FD8F-C77D-4518-88BF-C4E0E18C89C9" targetRef="sid-C3A8A19F-10E7-4AD5-BE8C-D13274CE26AA">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-C03DF361-1881-410F-8117-3AC69D0BA693</modeler:editor-resource-id>
+      </extensionElements>
+    </sequenceFlow>
+    <exclusiveGateway id="sid-070E6676-87C4-48E9-8DF7-F75BFF53103D">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-070E6676-87C4-48E9-8DF7-F75BFF53103D</modeler:editor-resource-id>
+      </extensionElements>
+    </exclusiveGateway>
+    <sequenceFlow id="sid-1BB97E52-F2BE-4A70-B022-FB691A250843" sourceRef="sid-C3A8A19F-10E7-4AD5-BE8C-D13274CE26AA" targetRef="sid-070E6676-87C4-48E9-8DF7-F75BFF53103D">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-1BB97E52-F2BE-4A70-B022-FB691A250843</modeler:editor-resource-id>
+      </extensionElements>
+    </sequenceFlow>
+    <endEvent id="sid-5E3EAD4F-7ED3-4857-984E-A89FACF22D5B">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-5E3EAD4F-7ED3-4857-984E-A89FACF22D5B</modeler:editor-resource-id>
+      </extensionElements>
+    </endEvent>
+    <userTask id="sid-E307A9F2-8427-4386-AF84-F21810A00C7F" name="Review Order" activiti:formKey="16591" activiti:assignee="testuser">
+      <extensionElements>
+        <modeler:allow-send-email>true</modeler:allow-send-email>
+        <modeler:form-reference-id>16591</modeler:form-reference-id>
+        <modeler:form-reference-name>RECAP_ORDER</modeler:form-reference-name>
+        <modeler:activiti-idm-initiator>true</modeler:activiti-idm-initiator>
+        <modeler:editor-resource-id>sid-E307A9F2-8427-4386-AF84-F21810A00C7F</modeler:editor-resource-id>
+      </extensionElements>
+    </userTask>
+    <sequenceFlow id="sid-B1C12BAA-9990-42BA-879E-2D03F8BF1124" sourceRef="sid-E307A9F2-8427-4386-AF84-F21810A00C7F" targetRef="sid-5E3EAD4F-7ED3-4857-984E-A89FACF22D5B">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-B1C12BAA-9990-42BA-879E-2D03F8BF1124</modeler:editor-resource-id>
+      </extensionElements>
+    </sequenceFlow>
+    <boundaryEvent id="sid-76B157FE-3413-4103-A819-D9689C024FB2" attachedToRef="sid-C3A8A19F-10E7-4AD5-BE8C-D13274CE26AA">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-76B157FE-3413-4103-A819-D9689C024FB2</modeler:editor-resource-id>
+      </extensionElements>
+      <timerEventDefinition>
+        <timeDuration>PT1M</timeDuration>
+      </timerEventDefinition>
+    </boundaryEvent>
+    <sequenceFlow id="sid-571648EB-46A2-459B-9BF3-0501A8DEF3F2" sourceRef="sid-76B157FE-3413-4103-A819-D9689C024FB2" targetRef="sid-E307A9F2-8427-4386-AF84-F21810A00C7F">
+      <extensionElements>
+        <modeler:editor-resource-id>sid-571648EB-46A2-459B-9BF3-0501A8DEF3F2</modeler:editor-resource-id>
+      </extensionElements>
+    </sequenceFlow>
+    <sequenceFlow id="sid-DB38DCB3-14DE-41B9-A0A2-A31B577CF4AC" sourceRef="sid-070E6676-87C4-48E9-8DF7-F75BFF53103D" targetRef="sid-7C62FD8F-C77D-4518-88BF-C4E0E18C89C9">
+      <extensionElements>
+        <modeler:conditionDefinition index="0" outcomeFormId="16575" outcomeFormName="SUGGEST_CHANGES" rightOutcomeName="Suggest" operator="==" />
+        <modeler:editor-resource-id>sid-DB38DCB3-14DE-41B9-A0A2-A31B577CF4AC</modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression">${(activiti_flowConditionsBean.exists(execution, 'form16575outcome') &amp;&amp; form16575outcome == 'Suggest')}</conditionExpression>
+    </sequenceFlow>
+    <sequenceFlow id="sid-669429F4-B14C-4BA8-B2BB-4FF3E1932AB6" sourceRef="sid-070E6676-87C4-48E9-8DF7-F75BFF53103D" targetRef="sid-E307A9F2-8427-4386-AF84-F21810A00C7F">
+      <extensionElements>
+        <modeler:conditionDefinition index="0" outcomeFormId="16575" outcomeFormName="SUGGEST_CHANGES" rightOutcomeName="Accept" operator="==" />
+        <modeler:editor-resource-id>sid-669429F4-B14C-4BA8-B2BB-4FF3E1932AB6</modeler:editor-resource-id>
+      </extensionElements>
+      <conditionExpression xsi:type="tFormalExpression">${(activiti_flowConditionsBean.exists(execution, 'form16575outcome') &amp;&amp; form16575outcome == 'Accept')}</conditionExpression>
+    </sequenceFlow>
+  </process>
+  <bpmndi:BPMNDiagram id="BPMNDiagram_BEER-ORDERING-PROCESS">
+    <bpmndi:BPMNPlane id="BPMNPlane_BEER-ORDERING-PROCESS" bpmnElement="BEER-ORDERING-PROCESS">
+      <bpmndi:BPMNShape id="BPMNShape_startEvent1" bpmnElement="startEvent1">
+        <omgdc:Bounds x="100" y="163" width="30" height="30" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-E6F83FEC-9B30-408E-A7AB-2F0F3F633DF6" bpmnElement="sid-E6F83FEC-9B30-408E-A7AB-2F0F3F633DF6">
+        <omgdc:Bounds x="165" y="30" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-7C62FD8F-C77D-4518-88BF-C4E0E18C89C9" bpmnElement="sid-7C62FD8F-C77D-4518-88BF-C4E0E18C89C9">
+        <omgdc:Bounds x="300" y="105" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-C3A8A19F-10E7-4AD5-BE8C-D13274CE26AA" bpmnElement="sid-C3A8A19F-10E7-4AD5-BE8C-D13274CE26AA">
+        <omgdc:Bounds x="455" y="138" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-070E6676-87C4-48E9-8DF7-F75BFF53103D" bpmnElement="sid-070E6676-87C4-48E9-8DF7-F75BFF53103D" isMarkerVisible="true">
+        <omgdc:Bounds x="485" y="300" width="40" height="40" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-5E3EAD4F-7ED3-4857-984E-A89FACF22D5B" bpmnElement="sid-5E3EAD4F-7ED3-4857-984E-A89FACF22D5B">
+        <omgdc:Bounds x="810" y="306" width="28" height="28" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-E307A9F2-8427-4386-AF84-F21810A00C7F" bpmnElement="sid-E307A9F2-8427-4386-AF84-F21810A00C7F">
+        <omgdc:Bounds x="615" y="280" width="100" height="80" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNShape id="BPMNShape_sid-76B157FE-3413-4103-A819-D9689C024FB2" bpmnElement="sid-76B157FE-3413-4103-A819-D9689C024FB2">
+        <omgdc:Bounds x="540.1941016908853" y="182.7776406763541" width="31" height="31" />
+      </bpmndi:BPMNShape>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-669429F4-B14C-4BA8-B2BB-4FF3E1932AB6" bpmnElement="sid-669429F4-B14C-4BA8-B2BB-4FF3E1932AB6">
+        <omgdi:waypoint x="524.559748427673" y="320.44025157232704" />
+        <omgdi:waypoint x="615" y="320.15673981191225" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-DB38DCB3-14DE-41B9-A0A2-A31B577CF4AC" bpmnElement="sid-DB38DCB3-14DE-41B9-A0A2-A31B577CF4AC">
+        <omgdi:waypoint x="495.6344410876133" y="309.3655589123867" />
+        <omgdi:waypoint x="385.44159544159544" y="185" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-E3C0EC96-E81C-4B17-B2BA-AD95ADA198C1" bpmnElement="sid-E3C0EC96-E81C-4B17-B2BA-AD95ADA198C1">
+        <omgdi:waypoint x="125.19112047247457" y="166.99358988972745" />
+        <omgdi:waypoint x="177.96296296296296" y="110" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-1BB97E52-F2BE-4A70-B022-FB691A250843" bpmnElement="sid-1BB97E52-F2BE-4A70-B022-FB691A250843">
+        <omgdi:waypoint x="505.140350877193" y="218" />
+        <omgdi:waypoint x="505.42957746478874" y="300.42957746478874" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-C03DF361-1881-410F-8117-3AC69D0BA693" bpmnElement="sid-C03DF361-1881-410F-8117-3AC69D0BA693">
+        <omgdi:waypoint x="400" y="145" />
+        <omgdi:waypoint x="427.5" y="145" />
+        <omgdi:waypoint x="427.5" y="178" />
+        <omgdi:waypoint x="455" y="178" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-B1C12BAA-9990-42BA-879E-2D03F8BF1124" bpmnElement="sid-B1C12BAA-9990-42BA-879E-2D03F8BF1124">
+        <omgdi:waypoint x="715" y="320" />
+        <omgdi:waypoint x="810" y="320" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-571648EB-46A2-459B-9BF3-0501A8DEF3F2" bpmnElement="sid-571648EB-46A2-459B-9BF3-0501A8DEF3F2">
+        <omgdi:waypoint x="566.8815607568417" y="210.68470659174673" />
+        <omgdi:waypoint x="629.0970860767958" y="280" />
+      </bpmndi:BPMNEdge>
+      <bpmndi:BPMNEdge id="BPMNEdge_sid-91B1892B-BA3E-4A2F-B18F-2855E62DFC67" bpmnElement="sid-91B1892B-BA3E-4A2F-B18F-2855E62DFC67">
+        <omgdi:waypoint x="215" y="110" />
+        <omgdi:waypoint x="215" y="145" />
+        <omgdi:waypoint x="300" y="145" />
+      </bpmndi:BPMNEdge>
+    </bpmndi:BPMNPlane>
+  </bpmndi:BPMNDiagram>
+</definitions>
