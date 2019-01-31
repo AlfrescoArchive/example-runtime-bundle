@@ -9,7 +9,7 @@
         <modeler:editor-resource-id>startEvent1</modeler:editor-resource-id>
       </extensionElements>
     </startEvent>
-    <serviceTask id="sid-E6F83FEC-9B30-408E-A7AB-2F0F3F633DF6" name="Retrieve informations" activiti:async="true" implementation="Example Connector" activiti:delegateExpression="${activiti_restCallDelegate}">
+    <serviceTask id="sid-E6F83FEC-9B30-408E-A7AB-2F0F3F633DF6" name="Retrieve informations" implementation="Example Connector" activiti:delegateExpression="${activiti_restCallDelegate}">
       <extensionElements>
         <activiti:field name="restUrl">
           <activiti:string>http://www.mocky.io/v2/5c51d93b320000fd0285594b</activiti:string>
