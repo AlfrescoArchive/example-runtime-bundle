@@ -10,10 +10,14 @@ RELEASE_ARTIFACT := $(or $(RELEASE_ARTIFACT),$(APP_NAME))
 GITHUB_CHARTS_REPO := $(or $(GITHUB_CHARTS_REPO),$(shell git config --get remote.origin.url))
 GITHUB_CHARTS_BRANCH := $(or $(GITHUB_CHARTS_BRANCH),gh-pages)
 
-build: clean
+helmfetch: clean
 	helm init --client-only
 	helm repo add charts_activiti https://activiti.github.io/activiti-cloud-charts/
 	helm repo add activiti-cloud-helm-charts https://activiti.github.io/activiti-cloud-helm-charts/
+	helm fetch activiti-cloud-helm-charts/example-runtime-bundle
+	tar -xzvf --keep-old-files example-runtime-bundle-*.tgz --strip 1
+
+build: clean
 	helm dependency build
 	helm lint
 	helm install . --name ${NAME} --debug --dry-run

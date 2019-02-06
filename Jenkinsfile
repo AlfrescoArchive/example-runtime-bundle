@@ -30,7 +30,7 @@ pipeline {
         steps {
           container('maven') {
             sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
-            sh "mvn install"
+            sh "mvn install -DskipTests"
             // sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml'
 
 //           skip building docker image for now
