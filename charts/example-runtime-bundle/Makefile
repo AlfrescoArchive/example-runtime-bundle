@@ -15,8 +15,7 @@ helmfetch: clean
 	helm repo add charts_activiti https://activiti.github.io/activiti-cloud-charts/
 	helm repo add activiti-cloud-helm-charts https://activiti.github.io/activiti-cloud-helm-charts/
 	helm fetch activiti-cloud-helm-charts/example-runtime-bundle
-	tar -xzvf --keep-old-files example-runtime-bundle-*.tgz --strip 1
-
+	tar -xzvf example-runtime-bundle-*.tgz --strip 1 --exclude="Makefile" --exclude="values.yaml"
 build: clean
 	helm dependency build
 	helm lint
