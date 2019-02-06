@@ -38,6 +38,7 @@ pipeline {
 
 
              dir("./charts/$APP_NAME") {
+               sh "make helmfetch"  
                sh "make build"
              }
           }
