@@ -21,6 +21,12 @@ build: clean
 install:  build
 	helm install . --name ${NAME}
 	sleep $[ ( $RANDOM % 10 )  + 1 ]s
+	echo "Had a quick nap before loop"
+	for i in 1 2
+	do
+	  sleep $[ ( $RANDOM % 10 )  + 1 ]s
+	  echo "Had a quick nap... $i"
+	done
 
 upgrade: clean build
 	helm upgrade ${NAME} .
