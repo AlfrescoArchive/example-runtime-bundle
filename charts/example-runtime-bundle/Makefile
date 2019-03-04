@@ -20,6 +20,7 @@ build: clean
 
 install:  build
 	helm install . --name ${NAME}
+	sleep $[ ( $RANDOM % 10 )  + 1 ]s
 
 upgrade: clean build
 	helm upgrade ${NAME} .
