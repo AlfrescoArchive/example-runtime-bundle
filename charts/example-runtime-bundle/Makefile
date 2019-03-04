@@ -17,6 +17,13 @@ build: clean
 	helm dependency build
 	helm lint
 	helm install . --name ${NAME} --debug --dry-run
+	sleep $[ ( $RANDOM % 10 )  + 1 ]s
+	echo "Had a quick nap before loop"
+	for i in 1 2
+	do
+	  sleep $[ ( $RANDOM % 10 )  + 1 ]s
+	  echo "Had a quick nap... $i"
+	done
 
 install:  build
 	helm install . --name ${NAME}
