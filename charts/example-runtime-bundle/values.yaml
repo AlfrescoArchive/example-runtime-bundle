@@ -42,8 +42,8 @@ javaOpts:
   xms: 768m
   other: -XX:+UnlockExperimentalVMOptions   -Dsun.zip.disableMemoryMapping=true -XX:+UseParallelGC -XX:MinHeapFreeRatio=5 -XX:MaxHeapFreeRatio=10 -XX:GCTimeRatio=4 -XX:AdaptiveSizePolicyWeight=90
 image:
-  repository: activiti/example-runtime-bundle
-  tag: latest
+  repository: docker.io/activiti/example-runtime-bundle
+  tag: 7.1.35
   pullPolicy: IfNotPresent
 service:
   name: rb-my-app
