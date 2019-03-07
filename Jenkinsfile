@@ -29,8 +29,8 @@ pipeline {
         }
         steps {
           container('maven') {
-            sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
-            sh "mvn install"
+            sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION -B"
+            sh "mvn install -B"
             // sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml'
 
 //           skip building docker image for now
@@ -56,14 +56,14 @@ pipeline {
             sh "jx step git credentials"
             // so we can retrieve the version in later steps
             sh "echo \$(jx-release-version) > VERSION"
-            sh "mvn versions:set -DnewVersion=\$(cat VERSION)"
+            sh "mvn versions:set -DnewVersion=\$(cat VERSION) -B"
 
             dir ("./charts/$APP_NAME") {
                 retry(5){  
                   sh "make tag"
                 }
             }
-            sh 'mvn clean deploy'
+            sh 'mvn clean deploy -B'
 
             sh 'export VERSION=`cat VERSION` && skaffold build -f skaffold.yaml'
 
