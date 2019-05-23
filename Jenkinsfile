@@ -12,7 +12,7 @@ pipeline {
     }
     environment {
       ORG               = 'activiti'
-      APP_NAME          = 'example-runtime-bundle'
+      APP_NAME          = 'runtime-bundle'
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
       GITHUB_CHARTS_REPO    = "https://github.com/Activiti/activiti-cloud-helm-charts.git"
       GITHUB_HELM_REPO_URL = "https://activiti.github.io/activiti-cloud-helm-charts/"
@@ -29,6 +29,7 @@ pipeline {
         }
         steps {
           container('maven') {
+            sh "docker version"
             sh "mvn versions:set -DnewVersion=$PREVIEW_VERSION"
             sh "mvn install"
             // sh 'export VERSION=$PREVIEW_VERSION && skaffold build -f skaffold.yaml'
@@ -86,8 +87,6 @@ pipeline {
                 retry(5) {  
                  sh 'make github'
                 }
-              // promote through all 'Auto' promotion Environments
-//            sh 'jx promote -b --all-auto --timeout 1h --version \$(cat ../../VERSION) --no-wait'
               sh 'jx step git credentials'
               sh 'sleep 10'
               retry(5) {  
