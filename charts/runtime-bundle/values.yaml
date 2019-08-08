@@ -41,8 +41,8 @@ postgres:
 
 init:
   image:
-    repository: alpine
-    tag: 3.8
+    repository: docker.io/activiti/runtime-bundle
+    tag: 7.1.176
     pullPolicy: IfNotPresent
 
 ## Allows the specification of additional environment variables
@@ -63,8 +63,8 @@ javaOpts:
 # only set this variable if a private registry secret is needed to pull the image
 #registryPullSecrets: private-registry-secret
 image:
-  repository: activiti/example-runtime-bundle
-  tag: 7.0.0.SR1
+  repository: docker.io/activiti/runtime-bundle
+  tag: 7.1.176
   pullPolicy: IfNotPresent
 service:
   type: ClusterIP
