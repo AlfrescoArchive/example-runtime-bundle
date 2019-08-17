@@ -107,7 +107,7 @@ public class RuntimeBundleApplicationTest {
             
             Map<String, Object> result = Collections.singletonMap("result",
                                                                   event.getIntegrationContext()
-                                                                  .getBusinessKey());
+                                                                       .getBusinessKey());
             event.getIntegrationContext()
                  .addOutBoundVariables(result);
 
