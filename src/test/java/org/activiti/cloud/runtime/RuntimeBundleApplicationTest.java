@@ -12,9 +12,7 @@ import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;
 
 import com.fasterxml.jackson.core.JsonParseException;
-import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.databind.JsonMappingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
 import org.activiti.api.process.model.ProcessInstance;
 import org.activiti.api.process.model.builders.StartProcessPayloadBuilder;
 import org.activiti.api.process.model.payloads.StartProcessPayload;
@@ -22,7 +20,9 @@ import org.activiti.api.process.runtime.ProcessRuntime;
 import org.activiti.api.runtime.shared.security.SecurityManager;
 import org.activiti.cloud.api.process.model.IntegrationRequest;
 import org.activiti.cloud.api.process.model.IntegrationResult;
-import org.activiti.cloud.api.process.model.impl.IntegrationResultImpl;
+import org.activiti.cloud.connectors.starter.channels.IntegrationResultSender;
+import org.activiti.cloud.connectors.starter.configuration.ConnectorProperties;
+import org.activiti.cloud.connectors.starter.model.IntegrationResultBuilder;
 import org.activiti.core.common.spring.identity.ExtendedInMemoryUserDetailsManager;
 import org.activiti.engine.RuntimeService;
 import org.awaitility.Awaitility;
@@ -38,11 +38,9 @@ import org.springframework.cloud.stream.annotation.EnableBinding;
 import org.springframework.cloud.stream.annotation.Input;
 import org.springframework.cloud.stream.annotation.StreamListener;
 import org.springframework.cloud.stream.binder.test.TestChannelBinderConfiguration;
-import org.springframework.cloud.stream.binding.BinderAwareChannelResolver;
 import org.springframework.context.annotation.Bean;
 import org.springframework.messaging.Message;
 import org.springframework.messaging.SubscribableChannel;
-import org.springframework.messaging.support.MessageBuilder;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
@@ -126,23 +124,24 @@ public class RuntimeBundleApplicationTest {
     public static class ExampleConnectorConsumer {
         
         @Autowired
-        TestIntegrationResultSender integrationResultSender;
+        IntegrationResultSender integrationResultSender;
+        
+        @Autowired
+        private ConnectorProperties connectorProperties;        
         
         @StreamListener(ExampleConnectorChannels.IMPLEMENTATION)
         public void perfromTask(IntegrationRequest event) throws JsonParseException, JsonMappingException, IOException {
             
-            Map<String, Object> result = Collections.singletonMap("result",
-                                                                  event.getIntegrationContext()
-                                                                       .getBusinessKey());
-            event.getIntegrationContext()
-                 .addOutBoundVariables(result);
+            Map<String, Object> results = Collections.singletonMap("result",
+                                                                   event.getIntegrationContext()
+                                                                        .getBusinessKey());
+            
+            Message<IntegrationResult> message = IntegrationResultBuilder.resultFor(event, connectorProperties)
+                                                                         .withOutboundVariables(results)
+                                                                         .buildMessage();
+            integrationResultSender.send(message);            
 
-            IntegrationResult integrationResult = new IntegrationResultImpl(event, 
-                                                                            event.getIntegrationContext());       
-            
-            integrationResultSender.send(integrationResult, ExampleConnectorChannels.IMPLEMENTATION);
-            
-            assertThat(result).containsEntry("result", BUSINESS_KEY);
+            assertThat(results).containsEntry("result", BUSINESS_KEY);
             
             exampleConnectorConsumer.countDown();
         }
@@ -151,11 +150,6 @@ public class RuntimeBundleApplicationTest {
     @TestConfiguration
     public static class TestSupportConfig {
 
-        @Bean
-        public TestIntegrationResultSender testIntegrationResultSender() {
-            return new TestIntegrationResultSender();
-        }
-        
         @Bean
         public UserDetailsService myUserDetailsService() {
             ExtendedInMemoryUserDetailsManager extendedInMemoryUserDetailsManager = new ExtendedInMemoryUserDetailsManager();
@@ -252,26 +246,6 @@ public class RuntimeBundleApplicationTest {
             org.activiti.engine.impl.identity.Authentication.setAuthenticatedUserId(username);
 
             assertThat(securityManager.getAuthenticatedUserId()).isEqualTo(username);
-        }
-    }
-    
-    
-    public static class TestIntegrationResultSender {
-        
-        @Autowired
-        private BinderAwareChannelResolver resolver;
-
-        @Autowired
-        private ObjectMapper objectMapper;
-        
-        public void send(IntegrationResult integrationResult, String targetService) throws JsonProcessingException {
-            
-            Message<String> message = MessageBuilder.withPayload(objectMapper.writeValueAsString(integrationResult))
-                                                               .setHeader("targetService", targetService)
-                                                               .build();
-
-            resolver.resolveDestination("integrationResultsConsumer")
-                    .send(message);
         }
     }
 }
