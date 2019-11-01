@@ -72,17 +72,49 @@
     </dependency>
     <dependency>
       <groupId>org.springframework.boot</groupId>
-      <artifactId>spring-boot-test</artifactId>
+      <artifactId>spring-boot-starter-test</artifactId>
       <scope>test</scope>
+    </dependency>
+    <!-- See: https://cloud.spring.io/spring-cloud-static/spring-cloud-stream/2.1.0.RELEASE/multi/multi__testing.html#spring_integration_test_binder -->
+    <dependency>
+      <groupId>org.springframework.cloud</groupId>
+      <artifactId>spring-cloud-stream</artifactId>
+      <type>test-jar</type>
+      <version>2.1.0.RELEASE</version>
+      <scope>test</scope>
+      <classifier>test-binder</classifier>
     </dependency>
     <dependency>
-      <groupId>org.springframework</groupId>
-      <artifactId>spring-test</artifactId>
+      <groupId>org.awaitility</groupId>
+      <artifactId>awaitility</artifactId>
       <scope>test</scope>
-    </dependency>
+    </dependency>    
+    <dependency>
+      <groupId>org.activiti.cloud.connector</groupId>
+      <artifactId>activiti-cloud-starter-connector</artifactId>
+      <scope>test</scope>
+    </dependency>    
+    
   </dependencies>
   <build>
     <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-jar-plugin</artifactId>
+        <executions>
+          <execution>
+            <configuration>
+              <includes>
+                <include>**/integration/*</include>
+              </includes>
+              <classifier>test-binder</classifier>
+            </configuration>
+            <goals>
+              <goal>test-jar</goal>
+            </goals>
+          </execution>
+        </executions>
+      </plugin>    
       <plugin>
         <groupId>org.apache.maven.plugins</groupId>
         <artifactId>maven-compiler-plugin</artifactId>
