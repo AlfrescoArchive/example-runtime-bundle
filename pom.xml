@@ -50,10 +50,15 @@
       <groupId>org.activiti.cloud.rb</groupId>
       <artifactId>activiti-cloud-starter-runtime-bundle</artifactId>
     </dependency>
+    <!-- Temporary Starter Dependency for Cloud Native Bpmn Message Events Support (AAE-210) -->
+    <dependency>
+      <groupId>org.activiti.cloud.rb</groupId>
+      <artifactId>activiti-cloud-starter-message-connector</artifactId>
+    </dependency>
     <dependency>
       <groupId>org.springframework.cloud</groupId>
       <artifactId>spring-cloud-starter-stream-rabbit</artifactId>
-    </dependency>    
+    </dependency>
     <dependency>
       <groupId>org.postgresql</groupId>
       <artifactId>postgresql</artifactId>
