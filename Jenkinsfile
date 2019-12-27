@@ -40,6 +40,8 @@ pipeline {
             dir("./charts/$APP_NAME") {
               sh "make preview"
             }
+
+            sh "mvn deploy -DskipTests"
           }
         }
       }
