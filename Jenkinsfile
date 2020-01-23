@@ -14,6 +14,7 @@ pipeline {
       ORG               = 'activiti'
       APP_NAME          = 'runtime-bundle'
       VERSION           = jx_release_version()
+      RELEASE_BRANCH    = "master"
       CHARTMUSEUM_CREDS = credentials('jenkins-x-chartmuseum')
       GITHUB_CHARTS_REPO   = "https://github.com/Activiti/activiti-cloud-helm-charts.git"
       GITHUB_HELM_REPO_URL = "https://activiti.github.io/activiti-cloud-helm-charts/"
@@ -24,8 +25,7 @@ pipeline {
           branch 'PR-*'
         }
         environment {
-          PROJECT_VERSION   = maven_project_version()      
-          VERSION           = "$PROJECT_VERSION".replaceAll("SNAPSHOT","$BRANCH_NAME-$BUILD_NUMBER-SNAPSHOT")
+          VERSION           = maven_project_version().replaceAll("SNAPSHOT","$BRANCH_NAME-$BUILD_NUMBER-SNAPSHOT")
           PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
           HELM_RELEASE      = "$PREVIEW_NAMESPACE".toLowerCase()
         }
@@ -47,12 +47,15 @@ pipeline {
       }
       stage('Build Release') {
         when {
-          branch 'master'
+          branch "$RELEASE_BRANCH"
+        }
+        environment {
+          VERSION = jx_release_version()
         }
         steps {
           container('maven') {
             // ensure we're not on a detached head
-            sh "git checkout master"
+            sh "git checkout $RELEASE_BRANCH"
             sh "git config --global credential.helper store"
 
             sh "jx step git credentials"
@@ -75,7 +78,7 @@ pipeline {
       }
       stage('Promote to Environments') {
         when {
-          branch 'master'
+          branch "$RELEASE_BRANCH"
         }
         steps {
           container('maven') {
