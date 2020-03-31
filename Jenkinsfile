@@ -25,7 +25,7 @@ pipeline {
         }
         environment {
           PROJECT_VERSION   = maven_project_version()
-          VERSION           = "$PROJECT_VERSION".replaceAll("SNAPSHOT","$BRANCH_NAME-$BUILD_NUMBER-SNAPSHOT")
+          VERSION           = "$PROJECT_VERSION".replaceAll("SNAPSHOT","$BRANCH_NAME-$BUILD_NUMBER")
           PREVIEW_NAMESPACE = "$APP_NAME-$BRANCH_NAME".toLowerCase()
           HELM_RELEASE      = "$PREVIEW_NAMESPACE".toLowerCase()
         }
