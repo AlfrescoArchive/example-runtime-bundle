@@ -1,2 +1,1 @@
-import: Activiti/activiti-scripts:.travis.docker.yml@dev-almerico-3212-movepropogation-to-trtavis
-
+import: Activiti/activiti-scripts:.travis.docker.yml@master
